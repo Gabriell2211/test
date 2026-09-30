@@ -1,3 +1,60 @@
-numeros = (7316717653133062491922511967442657474235534919493496983520312774506326239578318016984801869478851843858615607891129494954595017379583319528532088055111254069874715852386305071569329096329522744304355766896648950445244523161731856403098711121722383113622298934233803081353362766142828064444866452387493035890729629049156044077239071381051585930796086670172427121883998797908792274921901699720888093776657273330010533678812202354218097512545405947522435258490771167055601360483958644670632441572215539753697817977846174064955149290862569321978468622482839722413756570560574902614079729686524145351004748216637048440319989000889524345065854122758866688116427171479924442928230863465674813919123162824586178664583591245665294765456828489128831426076900422421902267105562632111110937054421750694165896040807198403850962455444362981230987879927244284909188845801561660979191338754992005240636899125607176060588611646710940507754100225698315520005593572972571636269561882670428252483600823257530420752963450)
-numeros.split(13+1)
-print(numeros)
+import random
+
+def jogar():
+    # Lista de palavras do próprio programa
+    palavras = ["python", "programacao", "computador", "teclado", "desenvolvimento", "codigo"]
+    
+    # Escolhe uma palavra aleatoriamente
+    palavra_secreta = random.choice(palavras).lower()
+    
+    # Cria a lista de letras descobertas com '_' para cada letra da palavra
+    letras_descobertas = ["_"] * len(palavra_secreta)
+    
+    # Conjunto para armazenar as letras que o jogador já chutou
+    letras_chutadas = set()
+    
+    tentativas = 6  # Limite de tentativas erradas
+    
+    print("=== JOGO DA ADIVINHAÇÃO DE PALAVRAS ===")
+    print(f"A palavra tem {len(palavra_secreta)} letras.")
+    
+    while tentativas > 0 and "_" in letras_descobertas:
+        print("\nPalavra: " + " ".join(letras_descobertas))
+        print(f"Tentativas restantes: {tentativas}")
+        if letras_chutadas:
+            print(f"Letras já tentadas: {', '.join(sorted(letras_chutadas))}")
+        
+        chute = input("Digite uma letra: ").strip().lower()
+        
+        # Validação do chute
+        if len(chute) != 1 or not chute.isalpha():
+            print("⚠️ Por favor, digite apenas uma única letra válida!")
+            continue
+            
+        if chute in letras_chutadas:
+            print("⚠️ Você já chutou essa letra antes. Tente outra!")
+            continue
+            
+        letras_chutadas.add(chute)
+        
+        # Verifica se a letra está na palavra secreta
+        if chute in palavra_secreta:
+            print(f"🎯 Boa! A letra '{chute}' existe na palavra!")
+            # Atualiza os espaços '_' com a letra acertada na posição correta
+            for indice, letra in enumerate(palavra_secreta):
+                if letra == chute:
+                    letras_descobertas[indice] = chute
+        else:
+            print(f"❌ Que pena, a letra '{chute}' não está na palavra.")
+            tentativas -= 1
+
+    # Fim do jogo
+    print("\n" + "="*35)
+    if "_" not in letras_descobertas:
+        print(f"🎉 Parabéns! Você acertou a palavra: {palavra_secreta.upper()}")
+    else:
+        print(f"💥 Suas tentativas acabaram! A palavra era: {palavra_secreta.upper()}")
+    print("="*35)
+
+if __name__ == "__main__":
+    jogar()
